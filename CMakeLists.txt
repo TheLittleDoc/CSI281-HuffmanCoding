@@ -1,0 +1,36 @@
+cmake_minimum_required(VERSION 3.10)
+
+# Enable testing for CTest
+enable_testing()
+
+project(HuffmanCoding)
+
+# Set the C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# Set the warning level
+if (MSVC)
+    add_compile_options(/W4)
+else()
+    add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+set(LIB_DIR ${CMAKE_SOURCE_DIR}/lib)
+
+# Include directories
+include_directories(${LIB_DIR})
+
+# Collect all source files from the src and lib directories
+file(GLOB_RECURSE SRC_FILES ${SRC_DIR}/*.cpp)
+file(GLOB_RECURSE LIB_FILES ${LIB_DIR}/*.cpp)
+
+# Add the executable target
+add_executable(${PROJECT_NAME} ${SRC_FILES} ${LIB_FILES})
+
+# Add a test that can be run with ctest
+add_test(NAME ${PROJECT_NAME} COMMAND ${PROJECT_NAME})
+
+# Print message when building
+message(STATUS "Building ${PROJECT_NAME} with sources from ${SRC_DIR} and ${LIB_DIR}")
