@@ -1,4 +1,4 @@
-#include "BinaryTree.h"
+#include "MinHeapNode.h"
 #include "HuffmanCoding.h"
 #include "catch.h"
 #include <string>
