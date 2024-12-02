@@ -10,27 +10,34 @@
 #include <vector>
 #include <algorithm>
 #include <queue>
-#include "MinHeapNode.h"
+#include <unordered_map>
+#include "Node.h"
 
 using namespace std;
 
 class HuffmanCoding {
 private:
-    string text;
-    char[] characters;
-    vector<int> freq;
+    unordered_map<char, uint> freqs;
     vector<string> codes;
-    MinHeapNode *root;
+    Node *root;
     string encodedText;
     string decodedText;
 
     void frequencies() {
-        for (char c : text) {
-            freq[c]++;
+        for(char ch: decodedText)
+        {
+            freqs[ch]++;
         }
     }
+    struct comparison
+    {
+        bool operator()(Node* l, Node* r)
+        {
+            return l->frequency > r->frequency;
+        }
+    };
 public:
-    HuffmanCoding(string text) : text(std::move(text)) {
+    HuffmanCoding(string text) : decodedText(std::move(text)) {
         frequencies();
 
 
@@ -38,12 +45,21 @@ public:
     }
 
     void encode() {
-        priority_queue<MinHeapNode, vector<MinHeapNode>, greater<>> minHeap;
-        for (int i = 0; i < 256; i++) {
-            if (freq[i] != 0) {
-                minHeap.emplace(i, freq[i], nullptr, nullptr);
-            }
+        priority_queue<Node*, vector<Node*>, comparison> pq;
+        for (auto newPair: freqs)
+        {
+            pq.push(new Node(newPair.first, newPair.second));
         }
+        while (pq.size() != 1)
+        {
+            Node* left = pq.top();
+            pq.pop();
+            Node* right = pq.top();
+            pq.pop();
+            pq.push(new Node(left, right));
+        }
+        root = pq.top();
+
     }
 
 };
