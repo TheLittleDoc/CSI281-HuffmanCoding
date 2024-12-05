@@ -137,6 +137,21 @@ public:
 
 
     }
+
+    void decode() {
+        string temp;
+        string output;
+        for(int i=0;i<encodedText.length();i++) {
+          temp+=encodedText[i];
+          for(int j=0;j<codes.size();j++) {
+            if(codes[j] == temp) {
+              output+=translateCodeToCharacter(temp); //dunno if we actually have a function/way to do this
+              temp = "";
+              break;
+            }
+          }
+        }
+    }
  string getEncode() const {
      return encodedText;
  }
