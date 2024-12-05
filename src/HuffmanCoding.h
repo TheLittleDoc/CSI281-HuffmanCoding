@@ -40,9 +40,8 @@ private:
 public:
     HuffmanCoding(string text) : decodedText(std::move(text)) {
         frequencies();
-
-
         encode();
+        decode();
     }
 
     void createCodes(Node* root, string str,
@@ -136,33 +135,26 @@ public:
         cout << serializedTree(root) << "\n";
 
         //combine and store
-
-
-
-
-
     }
+
+
     void decode() {
+        if(root == nullptr) { return; }
+
         string output;
-        Node* node = root;
-        if (root == nullptr) { return; }
-        for (int i = 0; i < (int)encodedText.length(); i++) {
-            if (encodedText[i] == '0') {
-                if (node->left == nullptr) {
-                    output += node->data;
+        Node *node = root;
+        for(int i=0;i<(int) encodedText.length();i++) {
+            if(encodedText[i] == '0') {
+                node = node->left;
+                if(node->left == nullptr) {
+                    output+=node->data;
                     node = root;
                 }
-                else {
-                    node = node->left;
-                }
-            }
-            else if (encodedText[i] == '1') {
-                if (node->right == nullptr) {
-                    output += node->data;
+            } else if(encodedText[i] == '1') {
+                node = node->right;
+                if(node->right == nullptr) {
+                    output+=node->data;
                     node = root;
-                }
-                else {
-                    node = node->right;
                 }
             }
         }
