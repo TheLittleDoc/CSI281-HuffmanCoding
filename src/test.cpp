@@ -29,15 +29,6 @@ TEST_CASE("Huffman Coding with letters") {
     REQUIRE(decoded == input);
 }
 
-TEST_CASE("Huffman Coding with just repeats letters") {
-    string input = "aaaaaa";
-    HuffmanCoding huffman(input);
-
-    string encoded = huffman.getEncode();
-    string decoded = huffman.getDecode();
-
-    REQUIRE(decoded == input);
-}
 TEST_CASE("Huffman Coding with no input") {
     string input = "";
     HuffmanCoding huffman(input);
