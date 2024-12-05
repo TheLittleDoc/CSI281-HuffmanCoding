@@ -20,12 +20,12 @@ class HuffmanCoding {
 private:
     unordered_map<char, int> freqs;
     vector<string> codes;
-    Node *root;
+    Node* root;
     string encodedText;
     string decodedText;
 
     void frequencies() {
-        for(char ch: decodedText)
+        for (char ch : decodedText)
         {
             freqs[ch]++;
         }
@@ -46,7 +46,7 @@ public:
     }
 
     void createCodes(Node* root, string str,
-                    unordered_map<char, string>& huffmanCode)
+        unordered_map<char, string>& huffmanCode)
     {
         if (root == nullptr)
             return;
@@ -93,7 +93,12 @@ public:
 
     void encode() {
         priority_queue<Node*, vector<Node*>, comparison> pq;
-        for (auto newPair: freqs)
+        frequencies();
+        if (freqs.empty()) {
+            cout << "Error: No character frequencies found.\n";
+            return;
+        }
+        for (auto newPair : freqs)
         {
             pq.push(new Node(newPair.first, newPair.second));
         }
@@ -115,13 +120,13 @@ public:
             cout << pair.first << ": " << pair.second << "\n";
         }
         cout << "Ascii Coding:\n";
-        for(char ch: decodedText)
+        for (char ch : decodedText)
         {
             //as binary
             cout << bitset<8>(ch);
         }
         cout << "\nEncoded Text:\n";
-        for (char ch: decodedText) {
+        for (char ch : decodedText) {
             cout << huffmanCode[ch];
             encodedText += huffmanCode[ch];
         }
@@ -132,33 +137,40 @@ public:
 
         //combine and store
 
-
-
-
-
     }
-
     void decode() {
-        string temp;
         string output;
-        for(int i=0;i<encodedText.length();i++) {
-          temp+=encodedText[i];
-          for(int j=0;j<codes.size();j++) {
-            if(codes[j] == temp) {
-              output+=translateCodeToCharacter(temp); //dunno if we actually have a function/way to do this
-              temp = "";
-              break;
+        Node* node = root;
+        if (root == nullptr) { return; }
+        for (int i = 0; i < (int)encodedText.length(); i++) {
+            if (encodedText[i] == '0') {
+                if (node->left == nullptr) {
+                    output += node->data;
+                    node = root;
+                }
+                else {
+                    node = node->left;
+                }
             }
-          }
+            else if (encodedText[i] == '1') {
+                if (node->right == nullptr) {
+                    output += node->data;
+                    node = root;
+                }
+                else {
+                    node = node->right;
+                }
+            }
         }
+        decodedText = output;
     }
- string getEncode() const {
-     return encodedText;
- }
+    string getEncode() const {
+        return encodedText;
+    }
 
- string getDecode() const {
-     return decodedText;
- }
+    string getDecode() const {
+        return decodedText;
+    }
 };
 
 #endif //CSI281_HUFFMANCODING_HUFFMANCODING_H
