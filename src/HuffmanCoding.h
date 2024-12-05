@@ -61,7 +61,13 @@ public:
         root = pq.top();
 
     }
+ string getEncode() const {
+     return encodedText;
+ }
 
+ string getDecode() const {
+     return decodedText;
+ }
 };
 
 #endif //CSI281_HUFFMANCODING_HUFFMANCODING_H
