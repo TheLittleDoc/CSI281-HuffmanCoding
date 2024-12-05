@@ -20,12 +20,12 @@ class HuffmanCoding {
 private:
     unordered_map<char, int> freqs;
     vector<string> codes;
-    Node* root;
+    Node *root;
     string encodedText;
     string decodedText;
 
     void frequencies() {
-        for (char ch : decodedText)
+        for(char ch: decodedText)
         {
             freqs[ch]++;
         }
@@ -46,7 +46,7 @@ public:
     }
 
     void createCodes(Node* root, string str,
-        unordered_map<char, string>& huffmanCode)
+                    unordered_map<char, string>& huffmanCode)
     {
         if (root == nullptr)
             return;
@@ -98,7 +98,7 @@ public:
             cout << "Error: No character frequencies found.\n";
             return;
         }
-        for (auto newPair : freqs)
+        for (auto newPair: freqs)
         {
             pq.push(new Node(newPair.first, newPair.second));
         }
@@ -120,13 +120,13 @@ public:
             cout << pair.first << ": " << pair.second << "\n";
         }
         cout << "Ascii Coding:\n";
-        for (char ch : decodedText)
+        for(char ch: decodedText)
         {
             //as binary
             cout << bitset<8>(ch);
         }
         cout << "\nEncoded Text:\n";
-        for (char ch : decodedText) {
+        for (char ch: decodedText) {
             cout << huffmanCode[ch];
             encodedText += huffmanCode[ch];
         }
@@ -136,6 +136,10 @@ public:
         cout << serializedTree(root) << "\n";
 
         //combine and store
+
+
+
+
 
     }
     void decode() {
@@ -164,13 +168,13 @@ public:
         }
         decodedText = output;
     }
-    string getEncode() const {
-        return encodedText;
-    }
+ string getEncode() const {
+     return encodedText;
+ }
 
-    string getDecode() const {
-        return decodedText;
-    }
+ string getDecode() const {
+     return decodedText;
+ }
 };
 
 #endif //CSI281_HUFFMANCODING_HUFFMANCODING_H
