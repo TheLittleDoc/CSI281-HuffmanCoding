@@ -93,6 +93,11 @@ public:
 
     void encode() {
         priority_queue<Node*, vector<Node*>, comparison> pq;
+        frequencies();
+        if (freqs.empty()) {
+            cout << "Error: No character frequencies found.\n";
+            return;
+        }
         for (auto newPair: freqs)
         {
             pq.push(new Node(newPair.first, newPair.second));
@@ -137,20 +142,31 @@ public:
 
 
     }
-
     void decode() {
-        string temp;
         string output;
-        for(int i=0;i<encodedText.length();i++) {
-          temp+=encodedText[i];
-          for(int j=0;j<codes.size();j++) {
-            if(codes[j] == temp) {
-              output+=translateCodeToCharacter(temp); //dunno if we actually have a function/way to do this
-              temp = "";
-              break;
+        Node* node = root;
+        if (root == nullptr) { return; }
+        for (int i = 0; i < (int)encodedText.length(); i++) {
+            if (encodedText[i] == '0') {
+                if (node->left == nullptr) {
+                    output += node->data;
+                    node = root;
+                }
+                else {
+                    node = node->left;
+                }
             }
-          }
+            else if (encodedText[i] == '1') {
+                if (node->right == nullptr) {
+                    output += node->data;
+                    node = root;
+                }
+                else {
+                    node = node->right;
+                }
+            }
         }
+        decodedText = output;
     }
  string getEncode() const {
      return encodedText;
