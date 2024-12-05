@@ -1,4 +1,4 @@
-#include "MinHeapNode.h"
+#include "Node.h"
 #include "HuffmanCoding.h"
 #include "catch.h"
 #include <string>

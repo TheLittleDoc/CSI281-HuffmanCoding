@@ -11,13 +11,14 @@
 #include <algorithm>
 #include <queue>
 #include <unordered_map>
+#include <bitset>
 #include "Node.h"
 
 using namespace std;
 
 class HuffmanCoding {
 private:
-    unordered_map<char, uint> freqs;
+    unordered_map<char, int> freqs;
     vector<string> codes;
     Node *root;
     string encodedText;
@@ -44,6 +45,52 @@ public:
         encode();
     }
 
+    void createCodes(Node* root, string str,
+                    unordered_map<char, string>& huffmanCode)
+    {
+        if (root == nullptr)
+            return;
+
+        // Found a leaf node
+        if (!root->left && !root->right) {
+            huffmanCode[root->data] = str;
+        }
+
+        createCodes(root->left, str + "0", huffmanCode);
+        createCodes(root->right, str + "1", huffmanCode);
+    }
+
+    string convertTreeToText(unordered_map<char, string>& huffmanCode) {
+        string serializedTree;
+        for (auto pair : huffmanCode) {
+            serializedTree += pair.second;
+            serializedTree += pair.first;
+        }
+        return serializedTree;
+    }
+
+    string serializedTree(Node* node) {
+        string treeData;
+        //traverse tree (node-left-right) and store data
+        //if node is internal, store 1, if leaf store 0 and the character in binary
+        if (node == nullptr)
+        {
+            return "";
+        }
+        if (!node->left && !node->right)
+        {
+            treeData += "0";
+            treeData += bitset<8>(node->data).to_string();
+        }
+        else
+        {
+            treeData += "1";
+        }
+        treeData += serializedTree(node->left);
+        treeData += serializedTree(node->right);
+        return treeData;
+    }
+
     void encode() {
         priority_queue<Node*, vector<Node*>, comparison> pq;
         for (auto newPair: freqs)
@@ -59,6 +106,35 @@ public:
             pq.push(new Node(left, right));
         }
         root = pq.top();
+
+        unordered_map <char, string> huffmanCode;
+        createCodes(root, "", huffmanCode);
+
+        cout << "Huffman Codes:\n";
+        for (auto pair : huffmanCode) {
+            cout << pair.first << ": " << pair.second << "\n";
+        }
+        cout << "Ascii Coding:\n";
+        for(char ch: decodedText)
+        {
+            //as binary
+            cout << bitset<8>(ch);
+        }
+        cout << "\nEncoded Text:\n";
+        for (char ch: decodedText) {
+            cout << huffmanCode[ch];
+            encodedText += huffmanCode[ch];
+        }
+        cout << "\n";
+        cout << "Serialized Tree:\n";
+        cout << convertTreeToText(huffmanCode) << "\n";
+        cout << serializedTree(root) << "\n";
+
+        //combine and store
+
+
+
+
 
     }
 

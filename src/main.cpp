@@ -7,5 +7,8 @@
 using namespace std;
 
 int main() {
+    HuffmanCoding encoder("this is an example for huffman encodingA");
+    encoder.encode();
+
     return 0;
 }
