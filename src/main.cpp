@@ -2,7 +2,7 @@
 // Created by elysium.hosack on 11/18/2024.
 //
 #define CATCH_CONFIG_MAIN
-#include "catch.hpp"
+#include "catch.h"
 #include "HuffmanCoding.h"
 
 using namespace std;
